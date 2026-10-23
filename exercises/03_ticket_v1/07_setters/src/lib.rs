@@ -26,7 +26,6 @@ impl Ticket {
     }
 
     fn validate_title(title: &String) {
-        dbg!(title);
         if title.is_empty() {
             panic!("Title cannot be empty");
         }

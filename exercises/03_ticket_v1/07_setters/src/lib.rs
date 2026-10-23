@@ -11,22 +11,9 @@ pub struct Ticket {
 
 impl Ticket {
     pub fn new(title: String, description: String, status: String) -> Ticket {
-        if title.is_empty() {
-            panic!("Title cannot be empty");
-        }
-        if title.len() > 50 {
-            panic!("Title cannot be longer than 50 bytes");
-        }
-        if description.is_empty() {
-            panic!("Description cannot be empty");
-        }
-        if description.len() > 500 {
-            panic!("Description cannot be longer than 500 bytes");
-        }
-        if status != "To-Do" && status != "In Progress" && status != "Done" {
-            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
-        }
-
+        Ticket::validate_title(&title);
+        Ticket::validate_description(&description);
+        Ticket::validate_status(&status);
         Ticket {
             title,
             description,
@@ -38,12 +25,51 @@ impl Ticket {
         &self.title
     }
 
+    fn validate_title(title: &String) {
+        dbg!(title);
+        if title.is_empty() {
+            panic!("Title cannot be empty");
+        }
+        if title.len() > 50 {
+            panic!("Title cannot be longer than 50 bytes");
+        }
+    }
+
+    pub fn set_title(&mut self, new_title: String) {
+        Ticket::validate_title(&new_title);
+        self.title = new_title
+    }
+
     pub fn description(&self) -> &String {
         &self.description
     }
 
+    fn validate_description(description: &String) {
+        if description.is_empty() {
+            panic!("Description cannot be empty");
+        }
+        if description.len() > 500 {
+            panic!("Description cannot be longer than 500 bytes");
+        }
+    }
+
+    pub fn set_description(&mut self, new_description: String) {
+        Ticket::validate_description(&new_description);
+        self.description = new_description
+    }
+
     pub fn status(&self) -> &String {
         &self.status
+    }
+
+    fn validate_status(status: &String) {
+        if status != "To-Do" && status != "In Progress" && status != "Done" {
+            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
+        }
+    }
+    pub fn set_status(&mut self, new_status: String) {
+        Ticket::validate_status(&new_status);
+        self.status = new_status
     }
 }
 
